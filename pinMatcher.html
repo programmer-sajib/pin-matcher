@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Simple Calculator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        padding: 100px;
+        padding-top: 50px;
+        background-color: rgba(0, 0, 0, 0.9);
+      }
+      #wrapper {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 50px;
+        margin: 0 auto;
+      }
+      h1 {
+        text-align: center;
+        background-color: cadetblue;
+        color: #fff;
+        padding: 10px 0;
+        border-radius: 3px;
+        margin: 30px;
+      }
+      #generateSection {
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+        align-items: center;
+        box-shadow: 2px 2px 10px #fff;
+        padding: 20px;
+        border-radius: 10px;
+      }
+      #pinCodeMatcher {
+        padding: 20px;
+        font-size: 2rem;
+        text-align: center;
+      }
+      #success {
+        display: none;
+        font-family: "Orbitron", sans-serif;
+      }
+      #fail {
+        display: none;
+        font-family: "Orbitron", sans-serif;
+      }
+      .btns {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 10px;
+      }
+      .btns > button {
+        background: rgba(0, 0, 0, 0.5);
+        color: #fff;
+        height: 30px;
+        border: 0.5px solid slategray;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      #calcSection {
+        width: 250px;
+        box-shadow: 2px 2px 10px #fff;
+        padding: 20px;
+        border-radius: 10px;
+      }
+      #display {
+        width: 95%;
+        height: 35px;
+        border: none;
+        background: rgba(50, 200, 50, 0.5);
+        border-radius: 3px;
+        text-align: right;
+        font-family: "Orbitron", sans-serif;
+        font-weight: 500;
+        font-size: 1.5rem;
+      }
+      #submitBtn {
+        margin: 0 auto;
+        display: block;
+        width: 50%;
+        padding: 5px;
+        border: none;
+        border-radius: 5px;
+        background-color: green;
+        color: #fff;
+        font-size: 1.2rem;
+        font-family: "Orbitron", sans-serif;
+        letter-spacing: 2px;
+        text-align: center;
+        transition: all 0.5s;
+        cursor: pointer;
+      }
+      #submitBtn:hover {
+        background-color: rgba(0, 0, 0, 0.5);
+      }
+      #generate {
+        margin-top: 50px;
+        align-self: center;
+        border-radius: 50%;
+        border: none;
+        height: 100px;
+        width: 100px;
+        font-size: 1.2rem;
+        background: radial-gradient(#b201f7ee, #4602ff);
+        color: #fff;
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+      #generate:active {
+        transform: scale(1.3);
+      }
+      #inputGenerator {
+        height: 35px;
+        border: none;
+        background: rgba(50, 200, 50, 0.5);
+        border-radius: 3px;
+        text-align: center;
+        font-family: "Orbitron", sans-serif;
+        font-weight: 500;
+        font-size: 1.5rem;
+        width: 100%;
+      }
+      input:disabled {
+        color: black;
+        pointer-events: none;
+      }
+      #tryLeft {
+        text-align: center;
+        padding: 5px;
+        border: 0.3px solid red;
+        color: red;
+        background-color: rgba(0, 0, 0, 0.9);
+        border-radius: 5px;
+        display: none;
+      }
+      .container {
+        display: grid;
+        grid-template-columns: 1fr;
+      }
+      .customDesign {
+        background: rgba(0, 0, 0, 0.1);
+        box-shadow: 5px 5px 15px red;
+        display: none;
+      }
+      @media (max-width: 580px) {
+        #wrapper {
+          grid-template-columns: 1fr;
+        }
+        #calcSection {
+          margin: 0 auto;
+        }
+        #generateSection {
+          margin: 0 auto;
+          width: 250px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Simple Pin Matcher</h1>
+      <div id="wrapper">
+        <div id="generateSection">
+          <input type="text" id="inputGenerator" disabled />
+          <button id="generate">Generate</button>
+        </div>
+        <div id="calcSection">
+          <input type="text" id="display" disabled /><br />
+          <br />
+          <div class="btns">
+            <button class="button">7</button>
+            <button class="button">8</button>
+            <button class="button">9</button>
+            <!-- <button class="button">/</button> -->
+
+            <button class="button">4</button>
+            <button class="button">5</button>
+            <button class="button">6</button>
+            <!-- <button class="button">*</button> -->
+
+            <button class="button">1</button>
+            <button class="button">2</button>
+            <button class="button">3</button>
+            <!-- <button class="button">+</button> -->
+
+            <button class="button"><</button>
+            <button class="button">0</button>
+            <button class="button">C</button>
+            <!-- <button class="button">=</button> -->
+          </div>
+          <br />
+          <button id="submitBtn">Submit</button>
+          <p id="tryLeft"></p>
+        </div>
+      </div>
+      <div id="pinCodeMatcher">
+        <p id="success">✅ Pin Code Matched..Secret door is opening...</p>
+        <p id="fail">❌ Sorry, Pin code doesn't match! Try again</p>
+      </div>
+    </div>
+    <div id="message">
+      <h1 class="customDesign">You are permanent blocked 👿</h1>
+    </div>
+
+    <script>
+      const calcDisplay = document.getElementById("display");
+      const calculatorSection = document.getElementById("wrapper");
+      calculatorSection.addEventListener("keypress", (event) => {
+        addValue(event.key);
+      });
+
+      function addValue(inputValue) {
+        if (event.key == "Enter") {
+          document.getElementById("submitBtn").click();
+        } else {
+          calcDisplay.value += inputValue;
+        }
+      }
+
+      function clickFunction() {
+        const btns = document.getElementsByClassName("button");
+        for (let i = 0; i < btns.length; i++) {
+          btns[i].addEventListener("click", () => {
+            if (btns[i].innerText == "C") {
+              calcDisplay.value = "";
+            } else if (btns[i].innerText == "=") {
+              calcDisplay.value = eval(calcDisplay.value);
+            } else if (btns[i].innerText == "<") {
+              calcDisplay.value = calcDisplay.value.substr(
+                0,
+                calcDisplay.value.length - 1
+              );
+            } else {
+              calcDisplay.value += btns[i].innerText;
+            }
+          });
+        }
+      }
+      clickFunction();
+
+      //Random Generator
+
+      const inputGenerator = document.getElementById("inputGenerator");
+      const inputGeneratorString = inputGenerator.value;
+      const generateBtn = document.getElementById("generate");
+
+      function randomGeneratorNumber() {
+        generateBtn.addEventListener("click", () => {
+          const generateNumber = Math.ceil(Math.random() * 10000);
+          inputGenerator.value = generateNumber;
+        });
+      }
+      randomGeneratorNumber();
+
+      function submitFunction() {
+        let count = 0;
+        const submitBtn = document.getElementById("submitBtn");
+        submitBtn.addEventListener("click", () => {
+          const success = document.getElementById("success");
+          const fail = document.getElementById("fail");
+          const tryLeft = document.getElementById("tryLeft");
+          if (inputGenerator.value > 0) {
+            if (inputGenerator.value === calcDisplay.value) {
+              fail.style.display = "none";
+              success.style.display = "block";
+              success.style.color = "green";
+              calcDisplay.value = "";
+              inputGenerator.value = "";
+              generateNewOne();
+              count = 0;
+              tryLeft.style.display = "none";
+            } else {
+              if (count >= 2) {
+                submitBtn.style.display = "none";
+              }
+              fail.style.display = "block";
+              fail.style.color = "red";
+              success.style.display = "none";
+              count++;
+              tryLeft.style.display = "block";
+              if (count == 3) {
+                tryLeft.innerText = "Blocked";
+              } else if (count == 4) {
+                document.querySelector(".container").style.display = "none";
+                document.querySelector(".customDesign").style.display = "block";
+              } else {
+                tryLeft.innerText = 3 - count + " Try left";
+              }
+              calcDisplay.value = "";
+              console.log(count);
+            }
+          }
+        });
+      }
+      submitFunction();
+
+      function generateNewOne() {
+        document.getElementById("generate").click();
+      }
+    </script>
+  </body>
+</html>
